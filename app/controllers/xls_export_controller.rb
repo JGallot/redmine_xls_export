@@ -1,5 +1,5 @@
-require 'xlse_asset_helpers'
-require_dependency 'xls_export'
+require_relative '../../lib/xlse_asset_helpers'
+require_relative '../../lib/xls_export'
 begin
   require 'zip/zip'
 rescue LoadError
@@ -40,11 +40,11 @@ class XlsExportController < ApplicationController
         redirect_to :controller => 'issues', :action => 'index', :project_id => @project
       end
     end
-    @settings=XLSE_AssetHelpers::settings
+    @settings=XlseAssetHelpers::settings
   end
 
   def export_current
-    @settings=XLSE_AssetHelpers::settings
+    @settings=XlseAssetHelpers::settings
     @issues_export_offset=params[:issues_export_offset].to_i || 0
     if retrieve_xls_export_data(@settings)
       export_name = get_xls_export_name(@settings)
@@ -96,7 +96,7 @@ protected
         @issues = query_issues(export_offset, limit)
 #        @issue_count_by_group = @query.issue_count_by_group
 # end of original code
-        @settings=XLSE_AssetHelpers::settings unless settings
+        @settings=XlseAssetHelpers::settings unless settings
       end
       return true
     end

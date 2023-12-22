@@ -2,7 +2,8 @@ require_dependency 'spreadsheet'
 require 'uri'
 require 'rubygems'
 require 'nokogiri'
-
+module XlsExport
+end
 module Redmine
   module Export
     module XLS
@@ -218,7 +219,7 @@ module Redmine
 
       def insert_issue_id(row, issue)
         issue_url = url_for(:controller => 'issues', :action => 'show', :id => issue)
-        row << Spreadsheet::Link.new(URI.escape(issue_url), issue.id.to_s)
+        row << Spreadsheet::Link.new(CGI.escape(issue_url), issue.id.to_s)
         format_link = Spreadsheet::Format.new :color => :blue, :underline => :single
         row.set_format(row.size - 1, format_link)
       end
